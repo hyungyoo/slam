@@ -33,23 +33,47 @@ class Dossier
 	//	return (Prestation::getCount() - count($mesPrestations));
 	//}
 
-	public function getNbPrestationExternes()
-	{
+	public function getNbPrestationExternes() // boucle avec "mesPrestations" , et recuperer intervenants externes
 
+	{
+		$compteur = 0;
+
+		foreach ($this->mesPrestations as $unePrestation)						//foreach ($nomDeTableau as $chaqueValeur)
+			if ($unePrestation->getL_Intervenant()->getType() == "IntervenantExterne")
+				$compteur++;
+		return ($compteur);
 	}
 
 	public function getNbJoursSoins()
 	{
-		$i = 0;
 		$ret = 0;
 		$tab = array();
-		while ($i++ < count(mesPrestations))
-			if (!(in_array(mesPrestations[$i]->dateSoin, $tab)))
-				$tab[$ret++] = mesPrestations[$i]->dateSoin;
+		foreach ($this->mesPresataion as $unePrestation)
+			if (!(in_array($unsPrestation->getDateSoin(), $tab)))
+				$tab[$ret++] = $unePrestation->getDateSoin();
 		unset($tab);
 		return ($ret);
 	}
 
+
+	public function getNbJoursSoins()
+	{
+		$compteur = 0;
+		if ($this->mesPrestations->cardianl() != 0)
+		{
+			$this->mesPrestations->trier();			//pas de function, donc pas de variable pour le prendre comme $p = etc	
+			$compteur = 1;
+
+			for ($i = 2; $i <= $this->mesPrestations->cardinal(); $i++)
+			{
+				if ($this->mesPrestations->obtenirObjet($i)->compareTo($this->mesPrestations->0btenirObjet($i - 1) != 0))
+				{
+					$compteur++;
+				}
+			}
+		}
+		return ($compteur);
+	}
 }
 
 class Prestation
@@ -84,16 +108,31 @@ class Prestation
 	//	return (self::count);
 	//}
 
+	//public function compareTo($unePrestation)
+	//{
+	//	$dateCourant = strtotime($this->dateSoin);
+	//	$unePrestation = strtotime($unePrestation);
+	//	if ($dateCourant == $unePrestation)
+	//		return (0);
+	//	else if ($dateCOurant > $unePrestation)
+	//		return (-1);
+	//	else
+	//		return (1);
+	//}
+	
 	public function compareTo($unePrestation)
 	{
-		$dateCourant = strtotime($this->dateSoin);
-		$unePrestation = strtotime($unePrestation);
-		if ($dateCourant == $unePrestation)
+		$unePrestation = $unePrestation->dateSoin;
+
+		if ($this->dateSoin->estEgale($unePrestation))			//classe technique 의 접근법은 내부속성에 -> 기술클라스의 함수
 			return (0);
-		else if ($dateCOurant > $unePrestation)
-			return (-1);
 		else
-			return (1);
+		{
+			if ($this->dateSoin->estSupérieur($unePrestation))
+				return (1);
+			else 
+				return (-1);
+		}
 	}
 
 	public function getDateSoin()
