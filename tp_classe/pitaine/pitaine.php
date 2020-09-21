@@ -42,3 +42,21 @@ class BateauVoyageur extends Bateau
 		return ($detail);
 	}
 }
+
+class Passerelle								//public a porte de class(statique)
+{ 
+
+}
+
+function BrochurePDF()
+{
+	$monPDF = new PDF("BateauVoygeur.pdf");
+	$mesBateaux = Passerelle::chargerLesBateauVoyger();
+	foreach ($mesBateaux as $unBateau)
+	{
+		$monPDF->chargeLmage($unBateau->getImageBatVoy());
+		$monPDF->ecrireTexte($unBateua->verChaine());
+	}
+}
+
+?>
