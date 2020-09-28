@@ -1,4 +1,4 @@
-
+pitaine
 
 <?php
 
@@ -44,8 +44,28 @@ class BateauVoyageur extends Bateau
 }
 
 class Passerelle								//public a porte de class(statique)
-{ 
+{
+	public function chargerLesEquipements($id)
+	{
+	}
 
+	public function chargertLesBateauVoyageur()
+	{
+		$maColl = new CollectionDeBateauVoyageur();
+		$ch = "Select id, nom, longeur. largeur. vitesse, image From Bateau Where type = 'v'";
+		$monJeBat = new jeuEnregistrement($ch);
+		while ($monJeBat()->fin())
+		{
+			$mesEquipe = $this->chargerLesEquipements($monJeBat->getValeur("id"));
+			$monBatVoy = new BateauVoyageur($monJeBat->getValeur("id"), $monJeBat->getValeur("nom"), 
+					$monJeBat->getValeur("longeur"), $monJeBat->getValeur("largeur"), 
+					$monJeBat->getValeur("vitesse"), $monJeBat->getValeur("image"), $mesEquipe);
+			$maColl->ajouter($monBatVoy);
+			$monJeBat->suivant();
+		}
+		$monJeBat->fermer();
+		return ($maColl);
+	}
 }
 
 function BrochurePDF()
@@ -57,6 +77,7 @@ function BrochurePDF()
 		$monPDF->chargeLmage($unBateau->getImageBatVoy());
 		$monPDF->ecrireTexte($unBateua->verChaine());
 	}
+	$monPDF->fermer();
 }
 
 ?>
