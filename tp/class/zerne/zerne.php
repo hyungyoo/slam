@@ -42,19 +42,19 @@ class Periode
 		$this->enDisponible = new CollectionDePompier();		//채울필요는없다 
 	}
 
-	public function Missionner($unPompier)
-	{
-		$status = $unPompier->GetStatus($this);
-		if ($status != "m")
-		{
-			$unPompier->Missioner($this);				//이건 periode의 missioner를 부르는거기떄문에 필요없다
-			if ($status = "t")
-				$this->auTravail->Enlever($unePompier);
-			else
-				$this->enDisponible->Enlever($unePompier);
-			$this->enMission->Ajouter($unePompier);
-		}
-	}
+	//public function Missionner($unPompier)
+	//{
+	//	$status = $unPompier->GetStatus($this);
+	//	if ($status != "m")
+	//	{
+	//		$unPompier->Missioner($this);
+	//		if ($status = "t")
+	//			$this->auTravail->Enlever($unePompier);
+	//		else
+	//			$this->enDisponible->Enlever($unePompier);
+	//		$this->enMission->Ajouter($unePompier);
+	//	}
+	//}
 
 	public function Missioner($unPompier)
 	{
@@ -96,8 +96,36 @@ class Periode
 
 	public function SelectEquipe($nbPompier)
 	{
-		// 마지막에 pour i = 0 a nbPompiers - 1
+		$uneEquipe = new CollectionDePompier();
+		$nbDispo = $this->enDIsponible,Cardianl();
+		if ($nbPompier > $nbDispo)
+		{
+			$nb = 0;
+			while ($i < $nbDispo)
+			{
+				$uneEquipe->Ajouter($this->enDisponible->Extraire($i));
+				$nb += 1;
+				$i += 1;
+			}
+			$i = 0;
+			$nbTravail = $this->auTravail->Cardinal();
+			while ($i < $nbTravail && $nb < $nbPompier)
+			{
+				$uneEquipe->Ajouter($this->auTravail->Extraire($i));
+				$nb += 1;
+				$i += 1;
+			}
+		}
+		else
+		{
+			for ($i = 0; $i < $nbPompier; $i++)
+			{
+				$uneEquipe->Ajouter($this->enDIsponible->Extraire($i));
+			}
+		}
+		return ($uneEquipe);
 	}
+
 }
 
 class Caserne
